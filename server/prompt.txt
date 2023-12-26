@@ -1,0 +1,112 @@
+1. **Introduction:**
+   - Generate JSON data to represent a Tagine recipe for a web app that provides clear and structured information to users.
+   - The goal is to create a user-friendly format with details on recipe steps, ingredients, equipment, and timings.
+
+2. **Recipe Information:**
+   - Include fields for the recipe name (`"recipe"`) and the number of people served (`"people_served"`).
+
+3. **Ingredients:**
+   - Utilize an array (`"ingredients"`) to list ingredients. Each ingredient should be represented as an object with fields for name (`"ingredient"`), a numeric quantity in decimal (`"quantity"`), an optional text unit (`"unit"`), and an optional notes field (`"notes"`) for additional details.
+
+4. **Equipment:**
+   - Use an array (`"equipment"`) to list the required tools or equipment.
+
+5. **Steps:**
+   - Employ an array (`"steps"`) to list sequential actions in the recipe.
+   - For each step, include:
+     - `"action"`: Specific action or task (presented as a sentence).
+     - `"description"`: Further details about the action, providing additional context or instructions.
+     - `"inputs"`: Array listing ingredients or equipment involved.
+     - `"container"`: (Optional) Specifies the container or equipment used.
+     - `"action_time"`: Time actively spent by the user doing the action.
+     - `"waiting_time"`: Mandatory time the user needs to wait passively after the action is completed, including preheating (e.g., waiting for preheating).
+     - `"output"`: Indicates the resulting combination or product after the step, presented as a noun.
+
+6. **Rules and Logic:**
+   - Differentiate time with `"action_time"` for active user involvement and `"waiting_time"` for passive waiting periods including but not limited to "perheating over time", "cooking time", "marinating", "cooling".
+   - Introduce a `"container"` field to specify equipment or containers.
+   - Specify individual actions as sentences like "Marinate Chicken" instead of single words like "Marinate."
+   - Include steps for both preparing and combining ingredients.
+   - Specify equipment involved in each step.
+   - Ensure interconnected steps, where the output of one step becomes the input for the next.
+   - Ensure that the `"output"` field represents the resulting combination or product after the step, presented as a noun.
+   - If there are no inputs for a step, represent the `"output"` field as an empty array.
+   - Try and add a good amount of detail in the recipe steps, tend towards more steps than less.
+
+7. **Example JSON Structure:**
+   ```json
+    {
+        "recipe": "Tagine",
+        "people_served": 4,
+        "ingredients": [
+            {"ingredient": "chicken thighs", "quantity": 4, "unit": "pieces", "notes": "bone-in, skin-on"},
+            {"ingredient": "onions", "quantity": 2, "unit": "medium", "notes": "sliced"},
+            {"ingredient": "carrots", "quantity": 4, "unit": "medium", "notes": "peeled and sliced"},
+            {"ingredient": "dried apricots", "quantity": 1, "unit": "cup", "notes": "halved"},
+            {"ingredient": "chickpeas", "quantity": 1, "unit": "can", "notes": "drained and rinsed"},
+            {"ingredient": "ground cinnamon", "quantity": 1, "unit": "teaspoon"},
+            {"ingredient": "ground cumin", "quantity": 1, "unit": "teaspoon"},
+            {"ingredient": "ground ginger", "quantity": 1, "unit": "teaspoon"},
+            {"ingredient": "ground coriander", "quantity": 1, "unit": "teaspoon"},
+            {"ingredient": "ground turmeric", "quantity": 1, "unit": "teaspoon"},
+            {"ingredient": "chicken broth", "quantity": 2, "unit": "cups"},
+            {"ingredient": "olive oil", "quantity": 2, "unit": "tablespoons"},
+            {"ingredient": "salt", "quantity": 1, "unit": "teaspoon"},
+            {"ingredient": "black pepper", "quantity": 1, "unit": "teaspoon"},
+            {"ingredient": "fresh cilantro", "quantity": 1, "unit": "cup", "notes": "chopped, for garnish"}
+        ],
+        "equipment": [
+            "Tagine pot or heavy-bottomed pot with lid"
+        ],
+        "steps": [
+            {
+            "action": "Marinate Chicken",
+            "description": "In a bowl, combine chicken thighs with ground cinnamon, cumin, ginger, coriander, turmeric, salt, and black pepper. Let it marinate for at least 30 minutes.",
+            "inputs": ["chicken thighs", "ground cinnamon", "ground cumin", "ground ginger", "ground coriander", "ground turmeric", "salt", "black pepper"],
+            "container": "Bowl",
+            "action_time": 30,
+            "waiting_time": 0,
+            "output": ["Marinated Chicken"]
+            },
+            {
+            "action": "Sear Chicken",
+            "description": "In a tagine pot or heavy-bottomed pot, heat olive oil over medium heat. Sear the marinated chicken thighs until golden brown on both sides. Remove and set aside.",
+            "inputs": ["Marinated Chicken", "olive oil"],
+            "container": "Tagine Pot",
+            "action_time": 15,
+            "waiting_time": 0,
+            "output": ["Seared Chicken"]
+            },
+            {
+            "action": "Saute Vegetables",
+            "description": "In the same pot, sauté sliced onions until softened. Add sliced carrots and continue to sauté until slightly caramelized.",
+            "inputs": ["onions", "carrots"],
+            "container": "Tagine Pot",
+            "action_time": 10,
+            "waiting_time": 0,
+            "output": ["Sauteed Vegetables"]
+            },
+            {
+            "action": "Cook Tagine",
+            "description": "Return the seared chicken to the pot. Add dried apricots, chickpeas, and chicken broth. Cover and simmer over low heat for 45-60 minutes or until chicken is tender.",
+            "inputs": ["Seared Chicken", "dried apricots", "chickpeas", "chicken broth"],
+            "container": "Tagine Pot",
+            "action_time": 0,
+            "waiting_time": 60,
+            "output": ["Tagine"]
+            },
+            {
+            "action": "Garnish and Serve",
+            "description": "Garnish the tagine with fresh cilantro before serving. Serve hot over couscous or rice.",
+            "inputs": ["Tagine", "fresh cilantro"],
+            "container": "Serving Dish",
+            "action_time": 5,
+            "waiting_time": 0,
+            "output": ["Served Tagine"]
+            }
+        ]
+    }
+   ```
+
+8. **Customization:**
+   - Emphasize flexibility for customization based on specific recipe requirements or preferences. Allow users to adapt the structure to suit their unique cooking processes, acknowledging waiting time, and specific actions for each step.
