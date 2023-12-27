@@ -35,7 +35,6 @@ app.post('/generate-uuid', async (req, res) => {
       throw new Error('Error reading prompt file');
     }
     
-    console.log(apiKey);
     // Call OpenAI Chat Completion API with the correct URL
     const openaiResponse = await axios.post(
       'https://api.openai.com/v1/chat/completions',
