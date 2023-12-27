@@ -58,7 +58,7 @@ const CookingMethods = ({ match }) => {
         </button>
       </div>
       <div>
-        <Link to={`/${uuid}/ingredients`}>
+        <Link to={`/${uuid}/shopping-list`}>
           <button>Go to Ingredients</button>
         </Link>
       </div>
