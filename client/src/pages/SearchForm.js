@@ -7,12 +7,15 @@ const SearchForm = () => {
   const [searchString, setSearchString] = useState('');
   const navigate = useNavigate();
 
+  const host = process.env.REACT_APP_HOST;
+  const node_port = process.env.REACT_APP_NODE_PORT;
+
   const handleSearch = async (event) => {
     event.preventDefault();
 
     try {
       // Make API call to generate UUID
-      const response = await axios.post('http://34.39.2.77:3001/generate-uuid', { searchString });
+      const response = await axios.post(`http://${host}:${node_port}/generate-uuid`, { searchString });
 
       // Extract UUID from the response
       const { uuid } = response.data;

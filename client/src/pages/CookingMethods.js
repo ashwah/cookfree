@@ -8,10 +8,13 @@ const CookingMethods = ({ match }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const { uuid } = useParams();
 
+  const host = process.env.REACT_APP_HOST;
+  const node_port = process.env.REACT_APP_NODE_PORT;
+
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/recipes/${uuid}`);
+        const response = await axios.get(`http://${host}:${node_port}/recipes/${uuid}`);
         setRecipe(response.data);
       } catch (error) {
         console.error('Error fetching recipe:', error.message);

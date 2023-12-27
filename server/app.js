@@ -22,7 +22,6 @@ app.post('/generate-uuid', async (req, res) => {
     // Load the entire contents of the "prompt.txt" file
     const promptFilePath = 'server/prompt.txt';
     
-    // Use fs.promises.readFile instead of fs.readFileSync
     let prompt;
     try {
       prompt = await fs.readFile(promptFilePath, 'utf8');
@@ -65,10 +64,6 @@ app.post('/generate-uuid', async (req, res) => {
       // Extract the JSON content between "```json" and "```"
       const jsonString = jsonResponse.substring(startIndex + 7, endIndex).trim();
       
-      // console.log(jsonString);
-      // const type = typeof jsonString;
-      // console.log('Type:', type);
-
       try {
         // Generate a UUID
         const uuid = uuidv4();
@@ -79,19 +74,12 @@ app.post('/generate-uuid', async (req, res) => {
         
         // Respond with the generated UUID
         res.json({ uuid });
-
-        // console.log('Parsed JSON:', parsedJson);
       } catch (error) {
         console.error('Error parsing JSON:', error.message);
       }
     } else {
       console.log('No JSON found in the input string.');
     }
-
-
-
-
-
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).json({ error: error.message });
