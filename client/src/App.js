@@ -28,7 +28,6 @@ const App = () => {
 
           <Routes>
             <Route path="/" element={<SearchForm />} />
-            <Route path="/shopping-list" element={<ShoppingList />} />
             <Route path="/:uuid/cook" element={<CookingMethods />} />
             <Route path="/:uuid/shopping-list" element={<ShoppingList />} />
           </Routes>

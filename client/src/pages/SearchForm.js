@@ -12,7 +12,7 @@ const SearchForm = () => {
 
     try {
       // Make API call to generate UUID
-      const response = await axios.post('http://localhost:3001/generate-uuid', { searchString });
+      const response = await axios.post('http://34.39.2.77:3001/generate-uuid', { searchString });
 
       // Extract UUID from the response
       const { uuid } = response.data;
