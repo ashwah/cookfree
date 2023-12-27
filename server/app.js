@@ -34,10 +34,11 @@ app.post('/generate-uuid', async (req, res) => {
       console.error('Error reading prompt file:', readError.message);
       throw new Error('Error reading prompt file');
     }
-
+    
+    console.log(apiKey);
     // Call OpenAI Chat Completion API with the correct URL
     const openaiResponse = await axios.post(
-      'https://api.openai.com/v1/chat/completions',  // Corrected URL
+      'https://api.openai.com/v1/chat/completions',
       {
         model: "gpt-3.5-turbo-1106",
         messages: [
