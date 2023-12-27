@@ -1,10 +1,10 @@
-// SearchForm.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const SearchForm = () => {
   const [searchString, setSearchString] = useState('');
+  const [loading, setLoading] = useState(false); // New loading state
   const navigate = useNavigate();
 
   const host = process.env.REACT_APP_HOST;
@@ -14,6 +14,8 @@ const SearchForm = () => {
     event.preventDefault();
 
     try {
+      setLoading(true); // Set loading to true before making the API call
+
       // Make API call to generate UUID
       const response = await axios.post(`http://${host}:${node_port}/generate-uuid`, { searchString });
 
@@ -27,6 +29,8 @@ const SearchForm = () => {
     } catch (error) {
       console.error('Error:', error.message);
       // Handle error if necessary
+    } finally {
+      setLoading(false); // Set loading to false after API call, whether it was successful or not
     }
   };
 
@@ -41,8 +45,11 @@ const SearchForm = () => {
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
           required
+          disabled={loading} // Disable the input field when loading is true
         />
-        <button type="submit">Search</button>
+        <button type="submit" disabled={loading}>Search</button>
+
+        {loading && <p>Generating your tailored recipe...</p>} {/* Loading message */}
       </form>
     </div>
   );
