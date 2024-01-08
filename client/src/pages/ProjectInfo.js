@@ -5,9 +5,9 @@ import React from 'react';
 const ProjectInfoPage = () => {
   return (
     <div>
-      <h1>About the CookFree</h1>
+      <h1>About CookFree</h1>
       <p>
-        Welcome to the CookFree, your go-to destination for delightful cooking experiences! Our platform is designed to make your culinary journey enjoyable, educational, and hassle-free.
+        Welcome to CookFree, your go-to destination for delightful cooking experiences! Our platform is designed to make your culinary journey enjoyable, educational, and hassle-free.
       </p>
 
       <h2>What We Offer</h2>
