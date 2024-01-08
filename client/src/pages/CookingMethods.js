@@ -40,7 +40,7 @@ const CookingMethods = ({ match }) => {
 
   return (
     <div>
-      <h1>Cooking Methods for {recipe.recipe}</h1>
+      <h1>Cooking Method for {recipe.recipe}</h1>
       <div>
         <h2>Step {currentStep + 1}</h2>
         <p><strong>Action:</strong> {currentStepData.action}</p>

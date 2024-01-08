@@ -27,7 +27,7 @@ app.post('/generate-uuid', async (req, res) => {
       prompt = await fs.readFile(promptFilePath, 'utf8');
       
       // Add a request for a specific recipe to the prompt.
-      prompt += ' Finally, give me the full recipe JSON for a  ' + searchString;
+      prompt += ' Finally, give me the full recipe JSON for a ' + searchString;
       console.log(prompt);
     } catch (readError) {
       console.error('Error reading prompt file:', readError.message);
@@ -54,7 +54,8 @@ app.post('/generate-uuid', async (req, res) => {
 
     // Extract JSON from OpenAI API response
     const jsonResponse = openaiResponse.data.choices[0].message.content;
-
+    console.log(jsonResponse);
+    
     // Find the index of "```json" and "```"
     const startIndex = jsonResponse.indexOf('```json');
     const endIndex = jsonResponse.indexOf('```', startIndex + 1);

@@ -6,7 +6,11 @@
    - Include fields for the recipe name (`"recipe"`) and the number of people served (`"people_served"`).
 
 3. **Ingredients:**
-   - Utilize an array (`"ingredients"`) to list ingredients. Each ingredient should be represented as an object with fields for name (`"ingredient"`), a numeric quantity in decimal (`"quantity"`), an optional text unit (`"unit"`), and an optional notes field (`"notes"`) for additional details.
+   - Utilize an array (`"ingredients"`) to list ingredients. Each ingredient should be represented as an object with the following fields 
+      - (`"ingredient"`) - the name of the ingredient.
+      - (`"quantity"`) - a DECIMAL that represents the amount of the ingredient.
+      - (`"unit"`) - an optional text representing the unit that the ingredient is mesured in.
+      - (`"notes"`) - an optional notes field for additional details.
 
 4. **Equipment:**
    - Use an array (`"equipment"`) to list the required tools or equipment.
@@ -42,21 +46,23 @@
             {"ingredient": "chicken thighs", "quantity": 4, "unit": "pieces", "notes": "bone-in, skin-on"},
             {"ingredient": "onions", "quantity": 2, "unit": "medium", "notes": "sliced"},
             {"ingredient": "carrots", "quantity": 4, "unit": "medium", "notes": "peeled and sliced"},
-            {"ingredient": "dried apricots", "quantity": 1, "unit": "cup", "notes": "halved"},
-            {"ingredient": "chickpeas", "quantity": 1, "unit": "can", "notes": "drained and rinsed"},
+            {"ingredient": "dried apricots", "quantity": 1.5, "unit": "cup", "notes": "halved"},
+            {"ingredient": "chickpeas", "quantity": 0.5, "unit": "can", "notes": "drained and rinsed"},
             {"ingredient": "ground cinnamon", "quantity": 1, "unit": "teaspoon"},
             {"ingredient": "ground cumin", "quantity": 1, "unit": "teaspoon"},
             {"ingredient": "ground ginger", "quantity": 1, "unit": "teaspoon"},
             {"ingredient": "ground coriander", "quantity": 1, "unit": "teaspoon"},
             {"ingredient": "ground turmeric", "quantity": 1, "unit": "teaspoon"},
             {"ingredient": "chicken broth", "quantity": 2, "unit": "cups"},
-            {"ingredient": "olive oil", "quantity": 2, "unit": "tablespoons"},
-            {"ingredient": "salt", "quantity": 1, "unit": "teaspoon"},
+            {"ingredient": "olive oil", "quantity": 2.5, "unit": "tablespoons"},
+            {"ingredient": "salt", "quantity": 1.5, "unit": "teaspoon"},
             {"ingredient": "black pepper", "quantity": 1, "unit": "teaspoon"},
             {"ingredient": "fresh cilantro", "quantity": 1, "unit": "cup", "notes": "chopped, for garnish"}
         ],
         "equipment": [
-            "Tagine pot or heavy-bottomed pot with lid"
+            "Tagine pot or heavy-bottomed pot with lid",
+            "Bowl",
+            "Serving dish"
         ],
         "steps": [
             {
