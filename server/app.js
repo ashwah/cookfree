@@ -27,7 +27,7 @@ app.post('/generate-uuid', async (req, res) => {
       prompt = await fs.readFile(promptFilePath, 'utf8');
       
       // Add a request for a specific recipe to the prompt.
-      prompt += ' Finally, give me the full recipe JSON for a ' + searchString;
+      prompt += ' Noting all the above, give a JSON representation for ' + searchString;
       console.log(prompt);
     } catch (readError) {
       console.error('Error reading prompt file:', readError.message);
