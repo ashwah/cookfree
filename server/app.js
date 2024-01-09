@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const { v4: uuidv4 } = require('uuid');
-const fs = require('fs').promises;
+const fs = require('fs');
 const cors = require('cors');
 const app = express();
 const port = 3001;
@@ -24,7 +24,7 @@ app.post('/generate-uuid', async (req, res) => {
     
     let prompt;
     try {
-      prompt = await fs.readFile(promptFilePath, 'utf8');
+      prompt = await fs.promises.readFile(promptFilePath, 'utf8');
       
       // Add a request for a specific recipe to the prompt.
       prompt += ' Noting all the above, give a JSON representation for ' + searchString;
@@ -71,7 +71,7 @@ app.post('/generate-uuid', async (req, res) => {
     
         // Write JSON to a file in the /recipes folder
         const fileName = `./server/recipes/recipe_${uuid}.json`;
-        fs.writeFile(fileName, jsonString);
+        fs.promises.writeFile(fileName, jsonString);
         
         // Respond with the generated UUID
         res.json({ uuid });
@@ -92,17 +92,19 @@ app.get('/recipes/:uuid', async (req, res) => {
   try {
     const uuid = req.params.uuid;
     const filePath = path.join(__dirname, 'recipes', `recipe_${uuid}.json`);
+    console.log(filePath);
 
     // Check if the file exists
     try {
-      await fs.access(filePath);
+      await fs.promises.access(filePath);
+      console.log(filePath);
     } catch (error) {
       res.status(404).json({ error: 'Recipe not found' });
       return;
     }
 
     // Read and send the JSON file
-    const recipeData = await fs.readFile(filePath, 'utf8');
+    const recipeData = await fs.promises.readFile(filePath, 'utf8');
     const parsedRecipe = JSON.parse(recipeData);
 
     res.json(parsedRecipe);
@@ -112,6 +114,61 @@ app.get('/recipes/:uuid', async (req, res) => {
   }
 });  
 
+// Function to read a recipe file and parse JSON
+const readRecipeFile = async (fileName) => {
+  const filePath = path.join(__dirname, 'recipes', fileName);
+  try {
+    const recipeData = await fs.readFileSync(filePath, 'utf8');
+    return JSON.parse(recipeData);
+  } catch (error) {
+    // console.error('Error reading or parsing file:', error.message);
+    // You can choose to handle the error or rethrow it
+    throw error;
+  }
+};
+
+// Function to get the name of a recipe from its JSON structure
+const getRecipeName = (recipe) => {
+  return recipe && recipe.recipe ? recipe.recipe : 'Unnamed Recipe';
+};
+
+// Endpoint to get the 25 most recent recipes
+app.get('/recent-recipes', async (req, res) => {
+  try {
+    const recipesFolder = path.join(__dirname, 'recipes');
+
+    // Read all files in the recipes folder
+    const files = await fs.promises.readdir(recipesFolder);
+
+    console.log("/n");
+    console.log(files);
+    // Sort files by modification time in descending order
+    const sortedFiles = (await Promise.all(
+      files.map(async (fileName) => {
+        const stat = await fs.promises.stat(path.join(recipesFolder, fileName));
+        console.log("filename: " + fileName);
+        return { fileName, mtime: stat.mtimeMs };
+      })
+    )).sort((a, b) => b.mtime - a.mtime).slice(0, 25);
+    console.log("got files ");
+
+    // Read and parse each of the 25 most recent recipes
+    const recentRecipes = await Promise.all(
+      sortedFiles.map(async ({ fileName }) => {
+        const recipe = await readRecipeFile(fileName);
+        return {
+          fileName,
+          recipeName: getRecipeName(recipe),
+        };
+      })
+    );
+
+    res.json(recentRecipes);
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
