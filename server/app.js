@@ -24,7 +24,7 @@ app.post('/generate-uuid', async (req, res) => {
     
     let prompt;
     try {
-      prompt = await fs.readFile(promptFilePath, 'utf8');
+      prompt = await fs.promises.readFile(promptFilePath, 'utf8');
       
       // Add a request for a specific recipe to the prompt.
       prompt += ' Finally, give me the full recipe JSON for a  ' + searchString;
@@ -70,7 +70,7 @@ app.post('/generate-uuid', async (req, res) => {
     
         // Write JSON to a file in the /recipes folder
         const fileName = `./server/recipes/recipe_${uuid}.json`;
-        fs.writeFile(fileName, jsonString);
+        fs.promises.writeFile(fileName, jsonString);
         
         // Respond with the generated UUID
         res.json({ uuid });
@@ -95,7 +95,7 @@ app.get('/recipes/:uuid', async (req, res) => {
 
     // Check if the file exists
     try {
-      await fs.access(filePath);
+      await fs.promises.access(filePath);
       console.log(filePath);
     } catch (error) {
       res.status(404).json({ error: 'Recipe not found' });
@@ -103,7 +103,7 @@ app.get('/recipes/:uuid', async (req, res) => {
     }
 
     // Read and send the JSON file
-    const recipeData = await fs.readFile(filePath, 'utf8');
+    const recipeData = await fs.promises.readFile(filePath, 'utf8');
     const parsedRecipe = JSON.parse(recipeData);
 
     res.json(parsedRecipe);
