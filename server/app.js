@@ -155,15 +155,28 @@ app.get('/recent-recipes', async (req, res) => {
     // Read and parse each of the 25 most recent recipes
     const recentRecipes = await Promise.all(
       sortedFiles.map(async ({ fileName }) => {
-        const recipe = await readRecipeFile(fileName);
-        return {
-          fileName,
-          recipeName: getRecipeName(recipe),
-        };
+        try {
+          const recipe = await readRecipeFile(fileName);
+    
+          // Check if the recipe is non-null
+          if (recipe === null) {
+            throw new Error('Invalid recipe');
+          }
+    
+          return {
+            fileName,
+            recipeName: getRecipeName(recipe),
+          };
+        } catch (error) {
+          // Handle the error (invalid recipe)
+          console.error(`Error processing file ${fileName}: ${error.message}`);
+
+          return null;
+        }
       })
     );
 
-    res.json(recentRecipes);
+    res.json(recentRecipes.filter(recipe => recipe !== null));
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).json({ error: error.message });
